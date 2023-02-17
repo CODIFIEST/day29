@@ -1,11 +1,7 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -44,15 +40,6 @@ const firestore_1 = require("firebase/firestore");
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: '../.env' });
 // dotenv.config();
-// Your web app's Firebase configuration
-// const firebaseConfig = {
-//     apiKey: "AIzaSyDhHjhc56740EXC5JokTL1Q69MP1JV1qp4",
-//     authDomain: "day27-f9d4f.firebaseapp.com",
-//     projectId: "day27-f9d4f",
-//     storageBucket: "day27-f9d4f.appspot.com",
-//     messagingSenderId: "58144372448",
-//     appId: "1:58144372448:web:0f3650c3a45a331e26c285"
-//   };
 console.log(process.env.VITE_apikey);
 const firebaseConfig = {
     apiKey: process.env.VITE_apikey,

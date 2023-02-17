@@ -15,7 +15,7 @@
             email: emailaddy,
         };
         const result = await axios.put(
-            "http://localhost:3999/user/:id",
+            "https://day29-neon.vercel.app/user/:id",
             newUser
         );
         editUser.set(false);
@@ -25,7 +25,7 @@
 
 <main>
     <div style="float:right">
-        name: {$username}
+        name: {$username} <br>
 
         <input
             class="input input-bordered input-primary w-full max-w-xs"
@@ -42,6 +42,7 @@
             placeholder={$email}
         />
     </div>
+    
     <button
         on:click={async () => {
             await putUser();
@@ -50,6 +51,14 @@
         }}
         class="btn">Submit changes</button
     >
+    <br><br>
+    <button
+        on:click={async ()=>{
+            location.reload();
+            return false;
+        }}    
+        class="btn"
+    >Cancel</button>
 </main>
 
 <style global lang="postcss">

@@ -9,7 +9,7 @@
 
     let users: UserC[] = [];
     async function getUsers() {
-        const result = await axios.get("http://localhost:3999/user");
+        const result = await axios.get("https://day29-neon.vercel.app/user");
         console.log("results", result.data);
         return result.data;
     }

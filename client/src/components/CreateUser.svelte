@@ -8,7 +8,7 @@
     async function submitForm() {
         console.log(email, username);
         if (username && email) {
-            const result = await axios.post("http://localhost:3999/user", {
+            const result = await axios.post("https://day29-neon.vercel.app/user", {
                 email: email,
                 username: username,
             });
