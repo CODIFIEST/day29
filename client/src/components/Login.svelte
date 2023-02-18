@@ -15,18 +15,18 @@
             }
             
             );
-            console.log(result.data);
+            console.log('result.data', result.data);
         }
     }
 </script>
 
-<h1>TEST HERE</h1>
+<h1></h1>
 
-<label for="my-modal-4" class="btn">Log In</label>
+<label for="my-modal-5" class="btn">Log In</label>
 
 <!-- Put this part before </body> tag -->
-<input type="checkbox" id="my-modal-4" class="modal-toggle" />
-<label for="my-modal-4" class="modal cursor-pointer">
+<input type="checkbox" id="my-modal-5" class="modal-toggle" />
+<label for="my-modal-5" class="modal cursor-pointer">
     <label class="modal-box relative" for="">
         <div style="float: right;">
             
@@ -49,6 +49,7 @@
                 console.log("button clicked");
                 if (password && email) {
                     await submitForm();
+
                     // these next two lines reload the page
                     // location.reload();
                     // return false;
@@ -59,7 +60,7 @@
     </label>
 </label>
 
-<h1>AND A TEST HERE TOO</h1>
+
 
 <style global lang="postcss">
     @tailwind base;

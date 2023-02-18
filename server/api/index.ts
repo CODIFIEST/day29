@@ -69,7 +69,7 @@ app.post("/login", async (req, res)=>{
     const passwordVerified = await verify(user.hashedPassword, req.body.password)
 console.log('is password verified', passwordVerified)
     if (!passwordVerified){
-        res.status(400).send('wrong password duh')
+        return res.status(400).send('wrong password duh')
     }
     else{
         //we need to create a valid json web token

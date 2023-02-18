@@ -58,8 +58,8 @@
                 if (username && email) {
                     await submitForm();
                     // these next two lines reload the page
-                    location.reload();
-                    return false;
+                    // location.reload();
+                    // return false;
                 }
             }}
             class="btn">Submit</button
