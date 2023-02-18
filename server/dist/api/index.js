@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -36,11 +40,13 @@ const cors_1 = __importDefault(require("cors"));
 const uuid_1 = require("uuid");
 const app_1 = require("firebase/app");
 const firestore_1 = require("firebase/firestore");
+const argon2_1 = require("argon2");
+const jwt = __importStar(require("jsonwebtoken"));
 //use dotenv with process.env to hide api keys
 const dotenv = __importStar(require("dotenv"));
 dotenv.config({ path: '../.env' });
 // dotenv.config();
-console.log(process.env.VITE_apikey);
+const jwtKey = process.env.VITE_siginingKey;
 const firebaseConfig = {
     apiKey: process.env.VITE_apikey,
     authDomain: process.env.VITE_authDomain,
@@ -71,19 +77,57 @@ app.get("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     console.log(user.data());
     res.send(user.data());
 }));
+function getUserByEmail(email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let userList = [];
+        console.log('we user by email now');
+        const users = yield (0, firestore_1.getDocs)((0, firestore_1.collection)(database, "day29"));
+        users.forEach((item) => {
+            let user = item.data();
+            userList.push(user);
+        });
+        console.log(userList.find(user => user.email === email));
+        return userList.find(user => user.email === email);
+    });
+}
+app.post("/login", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const email = req.body.email;
+    const password = req.body.password;
+    //now match the passwords. Does the hash of the password match the hash stored in the database
+    const user = yield getUserByEmail(email);
+    const passwordVerified = yield (0, argon2_1.verify)(user.hashedPassword, req.body.password);
+    console.log('is password verified', passwordVerified);
+    if (!passwordVerified) {
+        res.status(400).send('wrong password duh');
+    }
+    else {
+        //we need to create a valid json web token
+        const token = jwt.sign({ id: user.id }, jwtKey, { expiresIn: '1800s' });
+        res.status(200).send({
+            user: user,
+            token: token
+        });
+    }
+}));
 app.post("/user", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     console.log('req.body--------------', req.body);
     const username = req.body.username;
     const email = req.body.email;
     const id = (0, uuid_1.v4)();
+    const password = req.body.password;
+    //hash password
+    const hashedPassword = yield (0, argon2_1.hash)(password);
+    console.log('what does a hashed password look like?', hashedPassword);
     const user = {
         username: username,
         email: email,
         id: id,
+        hashedPassword: hashedPassword,
     };
     console.log('user------------', user);
     const pushUser = yield (0, firestore_1.setDoc)((0, firestore_1.doc)(database, "day29", user.id), user);
-    res.send(pushUser);
+    res.send(user);
+    console.log('what is pushUser', pushUser);
 }));
 app.put("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = req.body.id;
@@ -95,8 +139,23 @@ app.put("/user/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* (
         username: username
     };
     console.log(user);
-    const updateUser = yield (0, firestore_1.setDoc)((0, firestore_1.doc)(database, "day29", req.body.id), user);
-    console.log(updateUser);
-    res.send(updateUser);
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(400).send({ error: "no auth header, not logged in" });
+    }
+    const token = authHeader && authHeader.split(' ')[1];
+    if (!token)
+        return res.status(400).send({ error: "no token in auth header" });
+    jwt.verify(token, jwtKey, (err, decodedUser) => __awaiter(void 0, void 0, void 0, function* () {
+        if (err) {
+            return res.status(400).send({ error: "invalid token" });
+        }
+        if (decodedUser.id !== req.body.id) {
+            return res.status(400).send({ error: "wrong user logged in, bad id" });
+        }
+        const updateUser = yield (0, firestore_1.setDoc)((0, firestore_1.doc)(database, "day29", req.body.id), user, { merge: true });
+        console.log(updateUser);
+        res.send(user);
+    }));
 }));
 app.listen(3999);

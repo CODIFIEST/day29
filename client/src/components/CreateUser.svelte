@@ -4,14 +4,20 @@
     import axios from "axios";
     let username: string = "";
     let email: string = "";
+    let password:string=""
 
     async function submitForm() {
-        console.log(email, username);
+        console.log(email, username, password);
         if (username && email) {
             const result = await axios.post("https://day29-neon.vercel.app/user", {
                 email: email,
                 username: username,
-            });
+                password: password,
+            },{
+                // headers: // TODO: add authentication to header on login, maybe not here on creation
+            }
+            
+            );
             console.log(result.data);
         }
     }

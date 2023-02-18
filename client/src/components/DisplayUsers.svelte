@@ -26,7 +26,8 @@
 <!-- <input type="checkbox" id="my-modal-6" class="modal-toggle" />
 <div class="modal modal-bottom sm:modal-middle">
     <div class="modal-box"> -->
-{#each users as user}
+
+        {#each users as user}
     <div
         on:click={async () => {
             idToEdit.set(user.id);
@@ -40,8 +41,13 @@
         }}
         id={user.id}
     >
-        <br /> Name:{user.username} Email:{user.email}
-    </div>
+
+    <br />  
+    <div class="grid grid-cols-2 gap-4 text-left">
+
+      <div>  Name: {user.username}</div> <div> Email:{user.email}</div>
+      <br>
+    </div> </div>
 {/each}
 
 <!-- <div class="modal-action">
