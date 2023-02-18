@@ -2,6 +2,7 @@
   import CreateUser from "./components/CreateUser.svelte";
   import DisplayUsers from "./components/DisplayUsers.svelte";
   import EditUser from "./components/EditUser.svelte";
+    import Login from "./components/Login.svelte";
   import editUser from "./stores/editUser";
   let displayusers: boolean = false;
   let edituser: boolean = false;
@@ -11,6 +12,7 @@
 </script>
 
 <main>
+  <Login />
   <!-- <Header/> -->
   {#if !$editUser}
   <button class="btn" on:click={toggleDisplay}>Show/Hide Users</button>
