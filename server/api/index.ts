@@ -69,11 +69,14 @@ app.post("/login", async (req, res)=>{
     const passwordVerified = await verify(user.hashedPassword, req.body.password)
 console.log('is password verified', passwordVerified)
     if (!passwordVerified){
-        return res.status(400).send('wrong password duh')
+       
+        return res.status(400).send('wrong password duh');
+        
     }
     else{
         //we need to create a valid json web token
         const token = jwt.sign({id:user.id}, jwtKey, { expiresIn: '1800s'})
+        // document.cookie=`token=${token}`;
         res.status(200).send({
             user:user,
             token:token

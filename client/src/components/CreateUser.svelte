@@ -23,9 +23,9 @@
     }
 </script>
 
-<h1>TEST HERE</h1>
 
-<label for="my-modal-4" class="btn">Add a user</label>
+
+<label for="my-modal-4" class="btn">Register</label>
 
 <!-- Put this part before </body> tag -->
 <input type="checkbox" id="my-modal-4" class="modal-toggle" />
@@ -67,7 +67,7 @@
     </label>
 </label>
 
-<h1>AND A TEST HERE TOO</h1>
+
 
 <style global lang="postcss">
     @tailwind base;

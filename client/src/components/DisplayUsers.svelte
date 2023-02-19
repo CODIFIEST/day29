@@ -46,7 +46,7 @@
     <div class="grid grid-cols-2 gap-4 text-left">
 
       <div>  Name: {user.username}</div> <div> Email:{user.email}</div>
-      <br>
+      
     </div> </div>
 {/each}
 

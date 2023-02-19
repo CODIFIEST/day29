@@ -16,10 +16,25 @@
         };
         const result = await axios.put(
             "https://day29-neon.vercel.app/user/:id",
-            newUser
-        );
+            newUser, {
+                // withCredentials: true,
+                headers: {Authorization : `Bearer ${document.cookie}`}
+                
+            }
+
+            
+        )
+        .then((res)=>{
+            // alert(res.statusText)
+        })
+        .catch((error)=>{
+            alert(error);
+        })
+        .finally(()=>{
         editUser.set(false);
         return result.data;
+        })
+        
     }
 </script>
 
