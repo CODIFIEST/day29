@@ -79,26 +79,39 @@
 <input type="checkbox" id="my-modal" class="modal-toggle" />
 <div class="modal">
     <div class="modal-box">
-        <div style="float: right;">
-            username: <input
-                bind:value={username}
-                class="input input-bordered input-primary w-full max-w-xs"
-                type="text"
-            />
-            <br />
-            email:
-            <input
-                bind:value={email}
-                class="input input-bordered input-primary w-full max-w-xs"
-                type="text"
-            />
-            <br />
-            password:
-            <input
-                bind:value={password}
-                class="input input-bordered input-primary w-full max-w-xs"
-                type="text"
-            />
+        <div class="grid grid-cols-1 gap-4 text-right">
+            <div>
+                username: <input
+                    bind:value={username}
+                    class="input input-bordered input-primary w-full max-w-xs"
+                    type="text"
+                />
+            </div>
+            <div>
+                email:
+                <input
+                    bind:value={email}
+                    class="input input-bordered input-primary w-full max-w-xs"
+                    type="text"
+                />
+            </div>
+            <div>
+                password:
+                <input
+                    bind:value={password}
+                    class="input input-bordered input-primary w-full max-w-xs"
+                    type="text"
+                />
+            </div>
+            <div>
+                <button
+                    on:click={async () => {
+                        location.reload();
+                        return false;
+                    }}
+                    class="btn">Cancel</button
+                >
+            </div>
         </div>
 
         <div class="modal-action">
@@ -107,7 +120,7 @@
                     console.log("button clicked");
                     if (username && email) {
                         await submitForm();
-                        alert('User created successfully')
+                        alert("User created successfully");
                         // these next two lines reload the page
                         // location.reload();
                         // return false;
